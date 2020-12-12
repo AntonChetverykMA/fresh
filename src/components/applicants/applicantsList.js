@@ -11,7 +11,6 @@ export const ApplicantsList = () => {
 
   useEffect(() => {
     if (client) {
-      console.log(client.id);
       request(`applicants/?filter[client:id]=${client.id}`).then((data) =>
         dispatch({ type: 'SET_APPLICANTS', payload: data.items })
       );
