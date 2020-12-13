@@ -8,7 +8,7 @@ export const request = (url = '') => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: token,
-      'Access-Control-Allow-Origin': '*',
+      mode: 'no-cors',
     },
   }).then((res) => {
     if (!res.ok) {
