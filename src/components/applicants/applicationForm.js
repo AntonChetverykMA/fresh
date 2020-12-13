@@ -1,6 +1,7 @@
-import React from 'react';
+import { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { v4 as uuidv4 } from 'uuid';
 import {
   Box,
   Typography,
@@ -16,6 +17,7 @@ import {
 } from '@material-ui/core';
 
 import { PersonInfo } from './personInfo';
+import { DispatchContext } from '../../StateContext';
 
 const useStyles = makeStyles((theme) => ({
   title: { color: 'grey', margin: '10px 0' },
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   radioContainer: { flexDirection: 'row' },
-  select: { width: '40%', margin: '20px 0' },
+  select: { width: '30%', margin: '20px 0' },
   register: {
     flexGrow: 1,
     margin: '20px 0',
@@ -36,17 +38,54 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function ApplicationForm() {
+export function ApplicationForm({ setIsShownForm }) {
   const classes = useStyles();
-  const [person, setPerson] = React.useState('Фізична особа');
-  const [country, setCountry] = React.useState('');
+  const dispatch = useContext(DispatchContext);
+  const [person, setPerson] = useState('Фізична особа');
+  const [country, setCountry] = useState('');
+  const personInfoInitial = {
+    name: '',
+    address: '',
+    'name-origin': '',
+    'address-origin': '',
+  };
+  const [personInfo, setPersonInfo] = useState(personInfoInitial);
+  const [innCode, setInnCode] = useState('');
 
-  const handleChange = (event) => {
+  const handleCountryChange = (event) => {
     setCountry(event.target.value);
   };
 
   const handlePersonChange = (event) => {
     setPerson(event.target.value);
+  };
+
+  const handleRegisterChange = (event) => {
+    setInnCode(event.target.value);
+  };
+
+  const reset = () => {
+    setCountry('');
+    setPerson('Фізична особа');
+    setInnCode('');
+    setPersonInfo(personInfoInitial);
+  };
+
+  const addNewApllicant = () => {
+    const applicationInfo = {
+      person,
+      country,
+      name: personInfo.name,
+      address: { address: personInfo.address },
+      'name-origin': personInfo['name-origin'],
+      'address-origin': personInfo['address-origin'],
+      innCode,
+      id: uuidv4(),
+      isAdded: true,
+    };
+    dispatch({ type: 'ADD_NEW_APPLICANT', payload: applicationInfo });
+    reset();
+    setIsShownForm(false);
   };
 
   return (
@@ -82,7 +121,7 @@ export function ApplicationForm() {
               labelId='country-title'
               id='countru-select'
               value={country}
-              onChange={handleChange}
+              onChange={handleCountryChange}
               label='Country'
             >
               <MenuItem value={'Ukraine'}>Україна</MenuItem>
@@ -97,7 +136,9 @@ export function ApplicationForm() {
             id='register-number'
             label='ЄДРПОУ'
             variant='outlined'
-            style={{ width: '50%' }}
+            style={{ width: '40%' }}
+            value={innCode}
+            onChange={handleRegisterChange}
           />
           <Link
             href='https://usr.minjust.gov.ua/content/free-search'
@@ -108,10 +149,14 @@ export function ApplicationForm() {
           </Link>
         </Box>
 
-        <PersonInfo />
+        <PersonInfo
+          setPersonInfo={setPersonInfo}
+          country={country}
+          personInfo={personInfo}
+        />
 
         <Box className={classes.add}>
-          <Button variant='outlined' color='primary'>
+          <Button variant='outlined' color='primary' onClick={addNewApllicant}>
             Додати
           </Button>
         </Box>

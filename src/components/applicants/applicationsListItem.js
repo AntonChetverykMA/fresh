@@ -1,24 +1,60 @@
-import { Box, Checkbox } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import { FormControlLabel, Checkbox } from '@material-ui/core';
 import { useState } from 'react';
+import { StateContext, DispatchContext } from '../../StateContext';
+import { useContext } from 'react';
 
 export const ApplicantsListItem = ({ applicant }) => {
   const [checked, setChecked] = useState(false);
+  const dispatch = useContext(DispatchContext);
+  const { newApplicants, selectedApplicants } = useContext(StateContext);
 
   const handleChange = (event) => {
-    setChecked(event.target.checked);
+    const { checked } = event.target;
+
+    if (checked) {
+      dispatch({ type: 'ADD_NEW_SELECTED_APPLICANT', payload: applicant });
+    } else {
+      const filtredSelectedApplicants = selectedApplicants.filter(
+        (item) => item.id !== applicant.id
+      );
+
+      dispatch({
+        type: 'DELETE_SELECETED_APPLICANT',
+        payload: filtredSelectedApplicants,
+      });
+    }
+
+    setChecked(checked);
+  };
+
+  const removeItem = (id) => {
+    const filtredApplicants = newApplicants.filter((item) => item.id !== id);
+
+    dispatch({ type: 'DELETE_APPLICANT', payload: filtredApplicants });
   };
 
   return (
-    <Box>
-      <Checkbox
-        checked={checked}
-        onChange={handleChange}
-        color='primary'
-        inputProps={{ 'aria-label': 'secondary checkbox' }}
-      />
-      <span>
-        <b>{`${applicant.name}`}</b>, {`${applicant.address.address}`}
-      </span>
-    </Box>
+    <FormControlLabel
+      control={
+        <Checkbox
+          disabled={applicant.isAdded}
+          checked={checked}
+          onChange={handleChange}
+          color='primary'
+          inputProps={{ 'aria-label': 'secondary checkbox' }}
+        />
+      }
+      label={
+        <>
+          <span>
+            <b>{`${applicant.name}`}</b>, {`${applicant.address.address}`}
+          </span>
+          {applicant.isAdded && (
+            <Button onClick={removeItem.bind(null, applicant.id)}>X</Button>
+          )}
+        </>
+      }
+    />
   );
 };

@@ -21,6 +21,10 @@ export const Applicants = () => {
   const classes = useStyles();
   const [isShownForm, setIsShownForm] = useState(false);
 
+  const onClick = () => {
+    setIsShownForm(true);
+  };
+
   return (
     <Box className={classes.root}>
       <Container>
@@ -34,15 +38,11 @@ export const Applicants = () => {
           </Typography>
           <ApplicantsList />
 
-          <Button
-            color='primary'
-            className={classes.add}
-            onClick={() => setIsShownForm((oldState) => !oldState)}
-          >
+          <Button color='primary' className={classes.add} onClick={onClick}>
             + Додати
           </Button>
 
-          {isShownForm && <ApplicationForm />}
+          {isShownForm && <ApplicationForm setIsShownForm={setIsShownForm} />}
 
           <Box className={classes.submit}>
             <Submit />

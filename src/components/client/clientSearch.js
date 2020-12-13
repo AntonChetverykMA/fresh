@@ -41,6 +41,7 @@ export const ClientSeacrh = () => {
   return (
     <>
       <Autocomplete
+        autoComplete
         onChange={(e, value) =>
           dispatch({ type: 'SET_CLIENT', payload: value })
         }

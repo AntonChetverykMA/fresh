@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     marginTop: theme.spacing(2),
   },
+  list: {
+    margin: '20px 0',
+    paddingLeft: theme.spacing(2),
+    '& li': { listStyleType: 'none' },
+  },
 }));
 
 export const Client = () => {
@@ -34,11 +39,13 @@ export const Client = () => {
           <ClientSeacrh />
           <Box>
             {client ? (
-              <ol>
-                <li>{client.name}</li>
+              <ul className={classes.list}>
+                <li>
+                  <b>{client.name}</b>
+                </li>
                 <li>{client.email}</li>
                 <li>{client.phone}</li>
-              </ol>
+              </ul>
             ) : null}
           </Box>
           <Box className={classes.submit}>

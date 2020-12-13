@@ -2,8 +2,10 @@ import React, { useReducer } from 'react';
 
 const initialState = {
   client: null,
-  applicationInfo: null,
-  applicants: null,
+  applicants: [],
+  newApplicants: [],
+  selectedApplicants: [],
+  result: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,6 +20,41 @@ const reducer = (state = initialState, action) => {
         ...state,
         applicants: action.payload,
       };
+    case 'RESET_NEW_APPLICANTS':
+      return {
+        ...state,
+        newApplicants: [],
+      };
+    case 'ADD_NEW_APPLICANT':
+      return {
+        ...state,
+        newApplicants: [...state.newApplicants, action.payload],
+      };
+
+    case 'DELETE_APPLICANT':
+      return {
+        ...state,
+        newApplicants: action.payload,
+      };
+
+    case 'ADD_NEW_SELECTED_APPLICANT':
+      return {
+        ...state,
+        selectedApplicants: [...state.selectedApplicants, action.payload],
+      };
+
+    case 'DELETE_SELECETED_APPLICANT':
+      return {
+        ...state,
+        selectedApplicants: action.payload,
+      };
+
+    case 'SET_RESULT':
+      return {
+        ...state,
+        result: action.payload,
+      };
+
     default:
       return state;
   }
