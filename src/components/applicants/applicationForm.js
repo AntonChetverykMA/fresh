@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 
 import { PersonInfo } from './personInfo';
-import { DispatchContext } from '../../StateContext';
+import { DispatchContext } from '../context/StateContext';
 
 const useStyles = makeStyles((theme) => ({
   title: { color: 'grey', margin: '10px 0' },

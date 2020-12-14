@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Box, Container, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { StateContext } from '../StateContext';
+import { StateContext } from './context/StateContext';
 
 const useStyles = makeStyles((theme) => ({
   container: { marginTop: theme.spacing(1) },

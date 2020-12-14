@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import Button from '@material-ui/core/Button';
-import { StateContext, DispatchContext } from '../StateContext';
+import { StateContext, DispatchContext } from './context/StateContext';
 
 export default function Submit() {
   const { newApplicants, selectedApplicants, client } = useContext(
@@ -20,7 +20,7 @@ export default function Submit() {
     const result = {
       clientId: client.id,
       applicantsIds,
-      newApplicantsArrEdited,
+      newApplicants: newApplicantsArrEdited,
     };
 
     dispatch({ type: 'SET_RESULT', payload: result });

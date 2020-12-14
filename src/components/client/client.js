@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { ClientSeacrh } from './clientSearch';
 import Submit from '../submit';
-import { StateContext } from '../../StateContext';
+import { StateContext } from '../context/StateContext';
 
 const useStyles = makeStyles((theme) => ({
   container: { marginTop: theme.spacing(1) },

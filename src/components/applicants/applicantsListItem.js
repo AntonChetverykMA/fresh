@@ -1,8 +1,10 @@
 import { Button } from '@material-ui/core';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
 import { useState } from 'react';
-import { StateContext, DispatchContext } from '../../StateContext';
+
+import { StateContext, DispatchContext } from '../context/StateContext';
 import { useContext } from 'react';
+import * as types from '../context/types';
 
 export const ApplicantsListItem = ({ applicant }) => {
   const [checked, setChecked] = useState(false);
@@ -13,14 +15,14 @@ export const ApplicantsListItem = ({ applicant }) => {
     const { checked } = event.target;
 
     if (checked) {
-      dispatch({ type: 'ADD_NEW_SELECTED_APPLICANT', payload: applicant });
+      dispatch({ type: types.ADD_NEW_SELECTED_APPLICANT, payload: applicant });
     } else {
       const filtredSelectedApplicants = selectedApplicants.filter(
         (item) => item.id !== applicant.id
       );
 
       dispatch({
-        type: 'DELETE_SELECETED_APPLICANT',
+        type: types.DELETE_SELECETED_APPLICANT,
         payload: filtredSelectedApplicants,
       });
     }
@@ -31,7 +33,7 @@ export const ApplicantsListItem = ({ applicant }) => {
   const removeItem = (id) => {
     const filtredApplicants = newApplicants.filter((item) => item.id !== id);
 
-    dispatch({ type: 'DELETE_APPLICANT', payload: filtredApplicants });
+    dispatch({ type: types.DELETE_APPLICANT, payload: filtredApplicants });
   };
 
   return (

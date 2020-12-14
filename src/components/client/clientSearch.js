@@ -2,8 +2,9 @@ import { useEffect, useState, useContext } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField, CircularProgress } from '@material-ui/core';
 
-import { DispatchContext } from '../../StateContext';
-import { request } from '../../api';
+import { DispatchContext } from '../context/StateContext';
+import { request } from '../api/api';
+import * as types from '../context/types';
 
 export const ClientSeacrh = () => {
   const [open, setOpen] = useState(false);
@@ -43,7 +44,7 @@ export const ClientSeacrh = () => {
       <Autocomplete
         autoComplete
         onChange={(e, value) =>
-          dispatch({ type: 'SET_CLIENT', payload: value })
+          dispatch({ type: types.SET_CLIENT, payload: value })
         }
         id='asynchronous-demo'
         style={{ width: '40%' }}
